@@ -9,4 +9,8 @@ module.exports = {
         password: 'pXcbNRX4IZhsjGhhqaAF', // process.env.DB_PASSWORD
         database: 'railway', // process.env.DB_NAME
     },
+    mailConfig: {
+        email: process.env.EMAIL,
+        pass: process.env.EMAIL_PASS
+    }
 }

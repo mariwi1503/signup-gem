@@ -1,17 +1,18 @@
 const nodemailer = require('nodemailer')
+    , { mailConfig } = require('../config')
 
-module.exports = async (email) => {
+module.exports = async (email, name) => {
     const msg = {
         from: "'No-replay' <ary@spatialist.co>",
         to: email,
-        subject: 'Gemstar signup',
-        text: 'Thank for registration to GEMSTAR, your best consultant'
+        subject: 'Greeting from GEMSTAR',
+        html: `<h3>Hi ${name}, Thanks for your registration, enjoy our services</h3>`
     };    
     nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'ary@spatialist.co',
-            pass: 'lbmqrxbjbkosjvsr'
+            user: mailConfig.email,
+            pass: mailConfig.pass
         },
         port: 465,
         host: 'smtp.ethereal.email'

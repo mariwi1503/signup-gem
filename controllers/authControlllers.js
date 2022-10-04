@@ -10,9 +10,16 @@ module.exports = {
             let { name, email, password, retypePassword } = payload
 
             if(password != retypePassword) throw new Error('Password is not match')
+
+            // validate password pattern using regex
+            // should has at least one uppercase, one lower case, one digit, one special chracter and has min 8 character
+            const passwordPattern = new RegExp(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/)
+            const patternPass = passwordPattern.test(password)
+            if(!patternPass) throw new Error('Check the password requirment!')
+            
             // email existing check
             const emailExist = await authModel.getUserByEmail(email)
-            if(emailExist) throw new Error('Email already used!')
+            if(emailExist) throw new Error('Email already used, wanna login?')
 
             // password encryption
             password = bcrypt.hasher(password)
@@ -20,7 +27,7 @@ module.exports = {
                 name, email, password
             })
             // send email notification
-            await sendMail(email)
+            await sendMail(email, name)
             res.status(201).json({
                 status: 'Success'
             })
