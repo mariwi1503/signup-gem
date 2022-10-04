@@ -1,19 +1,21 @@
 const authModel = require('../models/authModel')
     , bcrypt = require('../libraries/bcryptLib')
     , sendMail = require('../helper/sendEmail')
+    , validation = require('../libraries/JoiLib')
 
 module.exports = {
     signup: async (req, res) => {
         try {
-            let { name, email, password1, password2 } = req.body
+            const payload = await validation.signupSchema.validateAsync(req.body)
+            let { name, email, password, retypePassword } = payload
 
-            if(password1 != password2) throw new Error('Password is not match')
+            if(password != retypePassword) throw new Error('Password is not match')
             // email existing check
             const emailExist = await authModel.getUserByEmail(email)
             if(emailExist) throw new Error('Email already used!')
 
             // password encryption
-            const password = bcrypt.hasher(password1)
+            password = bcrypt.hasher(password)
             const newUser = await authModel.createUser({
                 name, email, password
             })
