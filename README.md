@@ -20,7 +20,8 @@ $ npm run start
 
 | Routes | EndPoint                            | Description                                            |
 | ------ | ----------------------------------- | ------------------------------------------------------ |
-| POST   | /auth/signup                        | register new user                                      |
+| POST   | /auth/signup                        | api for user signup                                    |
+| POST   | /auth/login                         | api for login                                          |
 
 ```
 POST /auth/signup
@@ -34,5 +35,14 @@ req.body:
         • contains at least one upper character
         • contains at least one digit character
         • contains at least one special character
+        • contains at least 8 characters
+```
+
+```
+POST /auth/signup
+req.body:
+    - email:
+        • contains an email with email format validatated and it's required
+    - password:
         • contains at least 8 characters
 ```
