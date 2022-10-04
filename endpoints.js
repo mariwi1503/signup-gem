@@ -1,0 +1,1 @@
+module.exports = '<h1>Wellcome..</h1> <h3>Apis :</h3><h5>POST /auth/signup</h5><h5>POST /auth/login</h5>'

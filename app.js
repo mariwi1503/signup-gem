@@ -1,6 +1,7 @@
 const express = require('express')
     , config = require('./config')
     , authRoute = require('./routes/authRoute')
+    , endpoints = require('./endpoints')
 
 const app = express()
     , port = config.port || 3000
@@ -13,7 +14,7 @@ app.use('/api', authRoute)
     
 // global route
 app.get('/', (req, res) => {
-    res.send('You are ready..')
+    res.send(endpoints)
 })
     
 // unhandled route
