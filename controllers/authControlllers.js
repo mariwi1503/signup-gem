@@ -1,5 +1,6 @@
 const authModel = require('../models/authModel')
     , bcrypt = require('../libraries/bcryptLib')
+    , sendMail = require('../helper/sendEmail')
 
 module.exports = {
     signup: async (req, res) => {
@@ -16,6 +17,8 @@ module.exports = {
             const newUser = await authModel.createUser({
                 name, email, password
             })
+            // send email notification
+            await sendMail(email)
             res.status(201).json({
                 status: 'Success'
             })
