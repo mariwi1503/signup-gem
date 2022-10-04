@@ -12,5 +12,6 @@ module.exports = {
     mailConfig: {
         email: process.env.EMAIL,
         pass: process.env.EMAIL_PASS
-    }
+    },
+    jwtSecret: process.env.SECRET
 }

@@ -2,6 +2,7 @@ const authModel = require('../models/authModel')
     , bcrypt = require('../libraries/bcryptLib')
     , sendMail = require('../helper/sendEmail')
     , validation = require('../libraries/JoiLib')
+    , jwtLib = require('../libraries/jwtLib')
 
 module.exports = {
     signup: async (req, res) => {
@@ -30,6 +31,36 @@ module.exports = {
             await sendMail(email, name)
             res.status(201).json({
                 status: 'Success'
+            })
+        } catch (error) {
+            res.status(400).json({
+                status: 'Failed',
+                message: error.message
+            })
+        }
+    },
+    login: async (req, res) => {
+        try {
+            const payload = await validation.loginSchema.validateAsync(req.body)
+            const { email, password } = payload
+
+            // user exist check
+            const user = await authModel.getUserByEmail(email)
+            if(!user) throw new Error('Email is not registred, wanna signup?')
+
+            // validate password
+            const passwordMatch = bcrypt.checker(password, user.password)
+            if(!passwordMatch) throw new Error('Wrong password')
+
+            // generate token
+            const token = jwtLib.generate({
+                id: user.id,
+                email: user.email
+            })
+
+            res.status(200).json({
+                status: 'success',
+                token
             })
         } catch (error) {
             res.status(400).json({
