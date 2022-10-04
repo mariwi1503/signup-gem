@@ -1,15 +1,15 @@
 const express = require('express')
-    , env = require('dotenv')
+    , config = require('./config')
+    , authRoute = require('./routes/authRoute')
 
-env.config()
 const app = express()
-    , port = process.env.PORT || 3000
+    , port = config.port || 3000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
     
 // routes
-// app.use('/api',)
+app.use('/api', authRoute)
     
 // global route
 app.get('/', (req, res) => {
