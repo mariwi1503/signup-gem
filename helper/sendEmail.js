@@ -3,10 +3,10 @@ const nodemailer = require('nodemailer')
 
 module.exports = async (email, name) => {
     const msg = {
-        from: "'No-replay' <ary@spatialist.co>",
+        from: "'No-reply' <ary@spatialist.co>",
         to: email,
         subject: 'Greeting from GEMSTAR',
-        html: `<h3>Hi ${name}, Thanks for your registration, enjoy our services</h3>`
+        text: `Hi ${name}, Thanks for your registration, enjoy our services`
     };    
     nodemailer.createTransport({
         service: 'gmail',
